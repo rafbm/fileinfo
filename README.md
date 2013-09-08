@@ -45,3 +45,7 @@ FileInfo.load(filename).encoding # => #<Encoding:ISO-8859-1>
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create new Pull Request
+
+---
+
+© 2013 [Rafaël Blais Masson](http://heliom.ca). FileInfo is released under the MIT license.
