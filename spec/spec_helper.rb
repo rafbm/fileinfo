@@ -1,4 +1,5 @@
 require 'fileinfo'
+require 'fileutils'
 
 RSpec.configure do |config|
   config.order = 'random'

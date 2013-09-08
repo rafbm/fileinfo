@@ -6,9 +6,6 @@ describe FileInfo do
   let(:isowindows_file) { fixture('encoding_isowindows.csv') }
   let(:utf8_file)       { fixture('encoding_utf8.csv') }
 
-  let(:utf8_file_with_space) { fixture('encoding utf8.csv') }
-  let(:utf8_file_with_space_and_quotes) { fixture('encoding " utf8.csv') }
-
   describe '.load' do
     it 'extracts encoding from filename' do
       expect(FileInfo.load(ascii_file.path).encoding).to      eq Encoding::US_ASCII
@@ -18,11 +15,23 @@ describe FileInfo do
     end
 
     it 'extracts encoding from filename with space' do
-      expect(FileInfo.load(utf8_file_with_space.path).encoding).to eq Encoding::UTF_8
+      old_filename = fixture('encoding_utf8.csv').path
+      new_filename = old_filename.sub('_', ' ')
+      FileUtils.cp(old_filename, new_filename)
+
+      expect(FileInfo.load(new_filename).encoding).to eq Encoding::UTF_8
+
+      FileUtils.rm(new_filename)
     end
 
     it 'extracts encoding from filename with space and quote' do
-      expect(FileInfo.load(utf8_file_with_space_and_quotes.path).encoding).to eq Encoding::UTF_8
+      old_filename = fixture('encoding_utf8.csv').path
+      new_filename = old_filename.sub('_', ' " ')
+      FileUtils.cp(old_filename, new_filename)
+
+      expect(FileInfo.load(new_filename).encoding).to eq Encoding::UTF_8
+
+      FileUtils.rm(new_filename)
     end
 
     it 'raises ArgumentError if file does not exist' do
