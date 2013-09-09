@@ -7,14 +7,14 @@ describe FileInfo do
   let(:utf8_file)       { fixture('encoding_utf8.csv') }
 
   describe '.load' do
-    it 'extracts encoding from filename' do
+    it 'detects encoding from file' do
       expect(FileInfo.load(ascii_file.path).encoding).to      eq Encoding::US_ASCII
       expect(FileInfo.load(isolatin_file.path).encoding).to   eq Encoding::ISO_8859_1
       expect(FileInfo.load(isowindows_file.path).encoding).to eq Encoding::ISO_8859_1
       expect(FileInfo.load(utf8_file.path).encoding).to       eq Encoding::UTF_8
     end
 
-    it 'extracts encoding from filename with space' do
+    it 'detects encoding from file with space in filename' do
       old_filename = fixture('encoding_utf8.csv').path
       new_filename = old_filename.sub('_', ' ')
       FileUtils.cp(old_filename, new_filename)
@@ -24,7 +24,7 @@ describe FileInfo do
       FileUtils.rm(new_filename)
     end
 
-    it 'extracts encoding from filename with space and quote' do
+    it 'detects encoding from file with space and quote in filename' do
       old_filename = fixture('encoding_utf8.csv').path
       new_filename = old_filename.sub('_', ' " ')
       FileUtils.cp(old_filename, new_filename)
@@ -40,7 +40,7 @@ describe FileInfo do
   end
 
   describe '.parse' do
-    it 'extracts encoding from string' do
+    it 'detects encoding from string' do
       expect(FileInfo.parse(ascii_file.read).encoding).to      eq Encoding::US_ASCII
       expect(FileInfo.parse(isolatin_file.read).encoding).to   eq Encoding::ISO_8859_1
       expect(FileInfo.parse(isowindows_file.read).encoding).to eq Encoding::ISO_8859_1

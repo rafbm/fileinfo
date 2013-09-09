@@ -1,6 +1,6 @@
 # FileInfo
 
-FileInfo extracts encoding from strings and files using the [wonderful Unix `file` command](http://en.wikipedia.org/wiki/File_\(command\)).
+FileInfo detects encoding from strings and files using the [wonderful Unix `file` command](http://en.wikipedia.org/wiki/File_\(command\)).
 
 ## Installation
 

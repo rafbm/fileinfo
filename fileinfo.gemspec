@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = FileInfo::VERSION
   spec.authors       = ['Rafaël Blais Masson']
   spec.email         = ['rafael@heliom.ca']
-  spec.description   = "FileInfo extracts encoding from strings and files using the wonderful Unix `file` command."
-  spec.summary       = "FileInfo extracts encoding from strings and files using the wonderful Unix `file` command."
+  spec.description   = "FileInfo detects encoding from strings and files using the wonderful Unix `file` command."
+  spec.summary       = "FileInfo detects encoding from strings and files using the wonderful Unix `file` command."
   spec.homepage      = 'http://github.com/rafBM/fileinfo'
   spec.license       = 'MIT'
 
