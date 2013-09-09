@@ -1,5 +1,11 @@
 # FileInfo
 
+[![Gem Version](https://badge.fury.io/rb/fileinfo.png)](http://badge.fury.io/rb/fileinfo)
+[![Build Status](https://travis-ci.org/rafBM/fileinfo.png?branch=master)](https://travis-ci.org/rafBM/fileinfo)
+[![Code Climate](https://codeclimate.com/github/rafBM/fileinfo.png)](https://codeclimate.com/github/rafBM/fileinfo)
+[![Coverage Status](https://coveralls.io/repos/rafBM/fileinfo/badge.png?branch=master)](https://coveralls.io/r/rafBM/fileinfo?branch=master)
+[![Dependency Status](https://gemnasium.com/rafBM/fileinfo.png)](https://gemnasium.com/rafBM/fileinfo)
+
 FileInfo detects encoding from strings and files using the [wonderful Unix `file` command](http://en.wikipedia.org/wiki/File_\(command\)).
 
 ## Installation
