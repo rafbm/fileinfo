@@ -4,6 +4,7 @@ describe FileInfo do
   let(:ascii_file)      { fixture('encoding_ascii.csv') }
   let(:isolatin_file)   { fixture('encoding_isolatin.csv') }
   let(:isowindows_file) { fixture('encoding_isowindows.csv') }
+  let(:macroman_file)   { fixture('encoding_macroman.csv') }
   let(:utf8_file)       { fixture('encoding_utf8.csv') }
 
   describe '.load' do
@@ -45,6 +46,12 @@ describe FileInfo do
       expect(FileInfo.parse(isolatin_file.read).encoding).to   eq Encoding::ISO_8859_1
       expect(FileInfo.parse(isowindows_file.read).encoding).to eq Encoding::ISO_8859_1
       expect(FileInfo.parse(utf8_file.read).encoding).to       eq Encoding::UTF_8
+    end
+  end
+
+  describe '#encoding' do
+    it 'raises UnknownEncodingError' do
+      expect { FileInfo.load(macroman_file.path).encoding }.to raise_error(FileInfo::UnknownEncodingError)
     end
   end
 end

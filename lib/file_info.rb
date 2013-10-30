@@ -4,6 +4,8 @@ require 'shellwords'
 require 'tempfile'
 
 class FileInfo
+  class UnknownEncodingError < StandardError; end
+
   STRING_REGEX    = /: ([^:]+)$/
   ENCODING_REGEX  = /charset=(\S+)/
 
@@ -13,6 +15,8 @@ class FileInfo
 
   def encoding
     @encoding ||= ::Encoding.find(encoding_string)
+  rescue ArgumentError => e
+    raise UnknownEncodingError, e.message
   end
 
   def self.load(filename)
