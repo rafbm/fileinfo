@@ -27,11 +27,10 @@ class FileInfo
     file = Tempfile.new(rand.to_s)
     file.write(content)
     file.rewind
-    output = `file --mime --brief #{file.path}`
+    new `file --mime --brief #{file.path}`
+  ensure
     file.close
     file.unlink
-
-    new output
   end
 
 private
