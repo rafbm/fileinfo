@@ -7,6 +7,15 @@ describe FileInfo do
   let(:macroman_file)   { fixture('encoding_macroman.csv') }
   let(:utf8_file)       { fixture('encoding_utf8.csv') }
 
+  describe '#charset' do
+    it 'returns encoding string' do
+      expect(FileInfo.load(ascii_file.path).charset).to      eq 'us-ascii'
+      expect(FileInfo.load(isolatin_file.path).charset).to   eq 'iso-8859-1'
+      expect(FileInfo.load(isowindows_file.path).charset).to eq 'iso-8859-1'
+      expect(FileInfo.load(utf8_file.path).charset).to       eq 'utf-8'
+    end
+  end
+
   describe '#encoding' do
     it 'returns Encoding instance' do
       expect(FileInfo.load(ascii_file.path).encoding).to      eq Encoding::US_ASCII

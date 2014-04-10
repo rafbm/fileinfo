@@ -6,14 +6,18 @@ require 'tempfile'
 class FileInfo
   class UnknownEncodingError < StandardError; end
 
-  ENCODING_REGEX = /charset=(\S+)/
+  CHARSET_REGEX = /charset=(\S+)/
 
   def initialize(output)
     @output = output
   end
 
+  def charset
+    @charset ||= @output.match(CHARSET_REGEX)[1]
+  end
+
   def encoding
-    @encoding ||= ::Encoding.find(encoding_string)
+    @encoding ||= ::Encoding.find(charset)
   rescue ArgumentError => e
     raise UnknownEncodingError, e.message
   end
@@ -31,15 +35,5 @@ class FileInfo
   ensure
     file.close
     file.unlink
-  end
-
-private
-
-  def string
-    @string ||= @output.strip
-  end
-
-  def encoding_string
-    @encoding_string ||= string.match(ENCODING_REGEX)[1]
   end
 end
