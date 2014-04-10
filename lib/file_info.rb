@@ -6,8 +6,7 @@ require 'tempfile'
 class FileInfo
   class UnknownEncodingError < StandardError; end
 
-  STRING_REGEX    = /: ([^:]+)$/
-  ENCODING_REGEX  = /charset=(\S+)/
+  ENCODING_REGEX = /charset=(\S+)/
 
   def initialize(output)
     @output = output
@@ -21,14 +20,14 @@ class FileInfo
 
   def self.load(filename)
     raise ArgumentError, "File '#{filename}' does not exist." if !File.exists? filename
-    new `file --mime #{Shellwords.escape(filename)}`
+    new `file --mime --brief #{Shellwords.escape(filename)}`
   end
 
   def self.parse(content)
     file = Tempfile.new(rand.to_s)
     file.write(content)
     file.rewind
-    output = `file --mime #{file.path}`
+    output = `file --mime --brief #{file.path}`
     file.close
     file.unlink
 
@@ -38,7 +37,7 @@ class FileInfo
 private
 
   def string
-    @string ||= @output.match(STRING_REGEX)[1].strip
+    @string ||= @output.strip
   end
 
   def encoding_string
