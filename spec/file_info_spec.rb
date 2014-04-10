@@ -7,6 +7,9 @@ describe FileInfo do
   let(:macroman_file)   { fixture('encoding_macroman.csv') }
   let(:utf8_file)       { fixture('encoding_utf8.csv') }
 
+  let(:photoshop_file)  { fixture('mockup.psd') }
+  let(:binary_file)     { fixture('bytes') }
+
   describe '#charset' do
     it 'returns encoding string' do
       expect(FileInfo.load(ascii_file.path).charset).to      eq 'us-ascii'
@@ -61,6 +64,75 @@ describe FileInfo do
       expect(FileInfo.parse(isolatin_file.read).encoding).to   eq Encoding::ISO_8859_1
       expect(FileInfo.parse(isowindows_file.read).encoding).to eq Encoding::ISO_8859_1
       expect(FileInfo.parse(utf8_file.read).encoding).to       eq Encoding::UTF_8
+    end
+  end
+
+  let(:txt) { FileInfo.parse(FileInfo.parse('Hello, world!')) }
+  let(:csv) { FileInfo.load(utf8_file.path) }
+  let(:psd) { FileInfo.load(photoshop_file.path) }
+  let(:empty) { FileInfo.parse('') }
+  let(:bytes) { FileInfo.load(binary_file.path) }
+
+  describe '#content_type' do
+    it 'returns full Content-Type string' do
+      expect(txt.content_type).to eq 'text/plain; charset=us-ascii'
+      expect(csv.content_type).to eq 'text/plain; charset=utf-8'
+      expect(psd.content_type).to eq 'image/vnd.adobe.photoshop; charset=binary'
+      expect(empty.content_type).to eq 'application/x-empty; charset=binary'
+      expect(bytes.content_type).to eq 'application/octet-stream; charset=binary'
+    end
+  end
+
+  describe '#type' do
+    it 'returns MIME type string' do
+      expect(txt.type).to eq 'text/plain'
+      expect(csv.type).to eq 'text/plain'
+      expect(psd.type).to eq 'image/vnd.adobe.photoshop'
+      expect(empty.type).to eq 'application/x-empty'
+      expect(bytes.type).to eq 'application/octet-stream'
+    end
+  end
+
+  describe '#media_type' do
+    it 'returns MIME media type string' do
+      expect(txt.media_type).to eq 'text'
+      expect(csv.media_type).to eq 'text'
+      expect(psd.media_type).to eq 'image'
+      expect(empty.media_type).to eq 'application'
+      expect(bytes.media_type).to eq 'application'
+    end
+  end
+
+  describe '#sub_type' do
+    it 'returns MIME sub type string' do
+      expect(txt.sub_type).to eq 'plain'
+      expect(csv.sub_type).to eq 'plain'
+      expect(psd.sub_type).to eq 'vnd.adobe.photoshop'
+      expect(empty.sub_type).to eq 'x-empty'
+      expect(bytes.sub_type).to eq 'octet-stream'
+    end
+  end
+
+  describe '#mime_type' do
+    it 'returns a MIME::Type instance' do
+      [txt, csv, psd, bytes].each do |fileinfo|
+        expect(fileinfo.mime_type).to be_a MIME::Type
+      end
+    end
+
+    it 'returns nil for empty file' do
+      expect(empty.mime_type).to eq nil
+    end
+
+    context 'when "mime-types" gem isn’t available' do
+      before do
+        MIME.send(:remove_const, :Types)
+        allow_any_instance_of(FileInfo).to receive(:require).with('mime/types').and_raise(LoadError)
+      end
+
+      it 'raises LoadError with custom message' do
+        expect { txt.mime_type }.to raise_error(LoadError, FileInfo::MIME_TYPE_ERROR_MESSAGE)
+      end
     end
   end
 end
