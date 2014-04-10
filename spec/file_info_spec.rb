@@ -78,7 +78,7 @@ describe FileInfo do
       expect(txt.content_type).to eq 'text/plain; charset=us-ascii'
       expect(csv.content_type).to eq 'text/plain; charset=utf-8'
       expect(psd.content_type).to eq 'image/vnd.adobe.photoshop; charset=binary'
-      expect(empty.content_type).to eq 'application/x-empty; charset=binary'
+      expect(empty.content_type).to match %r{(application|inode)/x-empty; charset=binary}
       expect(bytes.content_type).to eq 'application/octet-stream; charset=binary'
     end
   end
@@ -88,7 +88,7 @@ describe FileInfo do
       expect(txt.type).to eq 'text/plain'
       expect(csv.type).to eq 'text/plain'
       expect(psd.type).to eq 'image/vnd.adobe.photoshop'
-      expect(empty.type).to eq 'application/x-empty'
+      expect(empty.type).to match %r{(application|inode)/x-empty}
       expect(bytes.type).to eq 'application/octet-stream'
     end
   end
@@ -98,7 +98,7 @@ describe FileInfo do
       expect(txt.media_type).to eq 'text'
       expect(csv.media_type).to eq 'text'
       expect(psd.media_type).to eq 'image'
-      expect(empty.media_type).to eq 'application'
+      expect(empty.media_type).to match %r{(application|inode)}
       expect(bytes.media_type).to eq 'application'
     end
   end
