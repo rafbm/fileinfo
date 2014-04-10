@@ -124,7 +124,7 @@ describe FileInfo do
       expect(empty.mime_type).to eq nil
     end
 
-    context 'when "mime-types" gem isn’t available' do
+    context 'when "mime-types" gem is not available' do
       before do
         MIME.send(:remove_const, :Types)
         allow_any_instance_of(FileInfo).to receive(:require).with('mime/types').and_raise(LoadError)
