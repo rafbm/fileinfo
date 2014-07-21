@@ -54,7 +54,7 @@ class FileInfo
   end
 
   def self.parse(content)
-    file = Tempfile.new(rand.to_s)
+    file = Tempfile.new(rand.to_s, encoding: Encoding::ASCII_8BIT)
     file.write(content)
     file.rewind
     new `file --mime --brief #{file.path}`

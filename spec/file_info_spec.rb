@@ -65,6 +65,21 @@ describe FileInfo do
       expect(FileInfo.parse(isowindows_file.read).encoding).to eq Encoding::ISO_8859_1
       expect(FileInfo.parse(utf8_file.read).encoding).to       eq Encoding::UTF_8
     end
+
+    context 'when internal encoding is UTF-8 (like Rails forces)' do
+      around do |example|
+        previous_encoding = Encoding.default_internal
+        Encoding.default_internal = Encoding::UTF_8
+        example.run
+        Encoding.default_internal = previous_encoding
+      end
+
+      [Encoding::ASCII_8BIT, Encoding::US_ASCII].each do |encoding|
+        it "accepts #{encoding} characters with no UTF-8 equivalent" do
+          expect { FileInfo.parse("\xFF".force_encoding(encoding)) }.not_to raise_error
+        end
+      end
+    end
   end
 
   let(:txt) { FileInfo.parse(FileInfo.parse('Hello, world!')) }
