@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe FileInfo do
+  let(:binary_file)     { fixture('one_character.txt') }
   let(:ascii_file)      { fixture('encoding_ascii.csv') }
   let(:isolatin_file)   { fixture('encoding_isolatin.csv') }
   let(:isowindows_file) { fixture('encoding_isowindows.csv') }
@@ -12,6 +13,8 @@ describe FileInfo do
 
   describe '#charset' do
     it 'returns encoding string' do
+      expect(FileInfo.parse('h').charset).to                 eq 'binary'
+      expect(FileInfo.load(binary_file.path).charset).to     eq 'binary'
       expect(FileInfo.load(ascii_file.path).charset).to      eq 'us-ascii'
       expect(FileInfo.load(isolatin_file.path).charset).to   eq 'iso-8859-1'
       expect(FileInfo.load(isowindows_file.path).charset).to eq 'iso-8859-1'
