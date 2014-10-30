@@ -14,7 +14,6 @@ describe FileInfo do
   describe '#charset' do
     it 'returns encoding string' do
       expect(FileInfo.parse('h').charset).to                 eq 'binary'
-      expect(FileInfo.load(binary_file.path).charset).to     eq 'binary'
       expect(FileInfo.load(ascii_file.path).charset).to      eq 'us-ascii'
       expect(FileInfo.load(isolatin_file.path).charset).to   eq 'iso-8859-1'
       expect(FileInfo.load(isowindows_file.path).charset).to eq 'iso-8859-1'
@@ -24,6 +23,7 @@ describe FileInfo do
 
   describe '#encoding' do
     it 'returns Encoding instance' do
+      expect(FileInfo.load(binary_file.path).encoding).to     eq Encoding::BINARY
       expect(FileInfo.load(ascii_file.path).encoding).to      eq Encoding::US_ASCII
       expect(FileInfo.load(isolatin_file.path).encoding).to   eq Encoding::ISO_8859_1
       expect(FileInfo.load(isowindows_file.path).encoding).to eq Encoding::ISO_8859_1
