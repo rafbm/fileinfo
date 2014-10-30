@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe FileInfo do
-  let(:binary_file)     { fixture('one_character.txt') }
+  let(:binary_file)     { fixture('one_byte.txt') }
   let(:ascii_file)      { fixture('encoding_ascii.csv') }
   let(:isolatin_file)   { fixture('encoding_isolatin.csv') }
   let(:isowindows_file) { fixture('encoding_isowindows.csv') }
