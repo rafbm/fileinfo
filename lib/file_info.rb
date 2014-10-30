@@ -39,7 +39,7 @@ class FileInfo
   end
 
   def charset
-    @charset ||= content_type.match(CHARSET_REGEX)[1]
+    @charset ||= (matches = content_type.match(CHARSET_REGEX)) ? matches[1] : 'binary'
   end
 
   def encoding
