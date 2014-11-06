@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe FileInfo do
-  let(:binary_file)     { fixture('one_byte.txt') }
+  let(:one_byte_file)   { fixture('one_byte.txt') }
   let(:ascii_file)      { fixture('encoding_ascii.csv') }
   let(:isolatin_file)   { fixture('encoding_isolatin.csv') }
   let(:isowindows_file) { fixture('encoding_isowindows.csv') }
@@ -23,7 +23,7 @@ describe FileInfo do
 
   describe '#encoding' do
     it 'returns Encoding instance' do
-      expect(FileInfo.load(binary_file.path).encoding).to     eq Encoding::BINARY
+      expect(FileInfo.load(one_byte_file.path).encoding).to   eq Encoding::BINARY
       expect(FileInfo.load(ascii_file.path).encoding).to      eq Encoding::US_ASCII
       expect(FileInfo.load(isolatin_file.path).encoding).to   eq Encoding::ISO_8859_1
       expect(FileInfo.load(isowindows_file.path).encoding).to eq Encoding::ISO_8859_1
