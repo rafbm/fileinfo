@@ -144,7 +144,7 @@ describe FileInfo do
 
     context 'when "mime-types" gem is not available' do
       before do
-        MIME.send(:remove_const, :Types)
+        hide_const 'MIME::Types'
         allow_any_instance_of(FileInfo).to receive(:require).with('mime/types').and_raise(LoadError)
       end
 
