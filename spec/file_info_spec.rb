@@ -59,6 +59,18 @@ describe FileInfo do
     it 'raises ArgumentError if file does not exist' do
       expect { FileInfo.load('WRONG!!1') }.to raise_error ArgumentError
     end
+
+    it 'prevents command line hacks' do
+      filename = "#{File.dirname(__FILE__)}/hacked.txt"
+      File.unlink(filename) if File.exists? filename
+
+      expect {
+        begin
+          FileInfo.load("foo; touch #{filename}")
+        rescue ArgumentError
+        end
+      }.not_to change { File.exists? filename }
+    end
   end
 
   describe '.parse' do
