@@ -69,7 +69,7 @@ describe FileInfo do
       expect(FileInfo.parse(utf8_file.read).encoding).to       eq Encoding::UTF_8
     end
 
-    context 'when internal encoding is UTF-8 (like Rails forces)' do
+    context 'when internal encoding is UTF-8 (like Rails enforces)' do
       around do |example|
         previous_encoding = Encoding.default_internal
         Encoding.default_internal = Encoding::UTF_8
@@ -85,7 +85,7 @@ describe FileInfo do
     end
   end
 
-  let(:txt) { FileInfo.parse(FileInfo.parse('Hello, world!')) }
+  let(:txt) { FileInfo.parse('Hello, world!') }
   let(:csv) { FileInfo.load(utf8_file.path) }
   let(:psd) { FileInfo.load(photoshop_file.path) }
   let(:empty) { FileInfo.parse('') }
