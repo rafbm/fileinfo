@@ -10,6 +10,7 @@ describe FileInfo do
 
   let(:photoshop_file)  { fixture('mockup.psd') }
   let(:binary_file)     { fixture('bytes') }
+  let(:max_file)        { fixture('earth.max') }
 
   describe '#charset' do
     it 'returns encoding string' do
@@ -18,6 +19,7 @@ describe FileInfo do
       expect(FileInfo.load(isolatin_file.path).charset).to   eq 'iso-8859-1'
       expect(FileInfo.load(isowindows_file.path).charset).to eq 'iso-8859-1'
       expect(FileInfo.load(utf8_file.path).charset).to       eq 'utf-8'
+      expect(FileInfo.load(max_file.path).charset).to        eq 'binary'
     end
   end
 
@@ -28,6 +30,7 @@ describe FileInfo do
       expect(FileInfo.load(isolatin_file.path).encoding).to   eq Encoding::ISO_8859_1
       expect(FileInfo.load(isowindows_file.path).encoding).to eq Encoding::ISO_8859_1
       expect(FileInfo.load(utf8_file.path).encoding).to       eq Encoding::UTF_8
+      expect(FileInfo.load(max_file.path).encoding).to        eq Encoding::BINARY
     end
 
     it 'raises UnknownEncodingError' do
@@ -102,6 +105,7 @@ describe FileInfo do
   let(:psd) { FileInfo.load(photoshop_file.path) }
   let(:empty) { FileInfo.parse('') }
   let(:bytes) { FileInfo.load(binary_file.path) }
+  let(:max) { FileInfo.load(max_file.path) }
 
   describe '#content_type' do
     it 'returns full Content-Type string' do
@@ -110,6 +114,7 @@ describe FileInfo do
       expect(psd.content_type).to eq 'image/vnd.adobe.photoshop; charset=binary'
       expect(empty.content_type).to match %r{(application|inode)/x-empty; charset=binary}
       expect(bytes.content_type).to eq 'application/octet-stream; charset=binary'
+      expect(max.content_type).to eq '; charset=binary'
     end
   end
 
@@ -120,6 +125,7 @@ describe FileInfo do
       expect(psd.type).to eq 'image/vnd.adobe.photoshop'
       expect(empty.type).to match %r{(application|inode)/x-empty}
       expect(bytes.type).to eq 'application/octet-stream'
+      expect(max.type).to eq 'application/octet-stream'
     end
   end
 
@@ -130,6 +136,7 @@ describe FileInfo do
       expect(psd.media_type).to eq 'image'
       expect(empty.media_type).to match %r{(application|inode)}
       expect(bytes.media_type).to eq 'application'
+      expect(max.media_type).to eq 'application'
     end
   end
 
@@ -140,12 +147,13 @@ describe FileInfo do
       expect(psd.sub_type).to eq 'vnd.adobe.photoshop'
       expect(empty.sub_type).to eq 'x-empty'
       expect(bytes.sub_type).to eq 'octet-stream'
+      expect(max.sub_type).to eq 'octet-stream'
     end
   end
 
   describe '#mime_type' do
     it 'returns a MIME::Type instance' do
-      [txt, csv, psd, bytes].each do |fileinfo|
+      [txt, csv, psd, bytes, max].each do |fileinfo|
         expect(fileinfo.mime_type).to be_a MIME::Type
       end
     end

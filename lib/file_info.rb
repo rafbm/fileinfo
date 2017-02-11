@@ -10,6 +10,7 @@ class FileInfo
   CHARSET_REGEX = /charset=(\S+)/
 
   MIME_TYPE_ERROR_MESSAGE = 'You must install the "mime-types" gem to use FileInfo#mime_type'
+  DEFAULT_MIME_TYPE = 'application/octet-stream'
 
   attr_reader :content_type
 
@@ -18,7 +19,10 @@ class FileInfo
   end
 
   def type
-    @type ||= content_type.match(MIME_TYPE_REGEX)[0]
+    @type ||= begin
+      match = content_type.match(MIME_TYPE_REGEX)
+      match ? match[0] : DEFAULT_MIME_TYPE
+    end
   end
 
   def media_type
