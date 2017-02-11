@@ -79,4 +79,4 @@ info.content_type # => "text/plain; charset=utf-8"
 
 ---
 
-© 2014 [Rafaël Blais Masson](http://rafbm.com). FileInfo is released under the MIT license.
+© 2017 [Rafaël Blais Masson](http://rafbm.com). FileInfo is released under the MIT license.
